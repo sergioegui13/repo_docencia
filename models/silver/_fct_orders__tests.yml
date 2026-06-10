@@ -6,4 +6,4 @@ models:
       - name: order_id
         data_tests:
           # TODO (B5): añade los genéricos unique y not_null
-          []
+          [unique, not_null]

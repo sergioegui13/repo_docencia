@@ -11,3 +11,18 @@ models:
         data_tests:
           - accepted_values:
               values: ['pending', 'shipped', 'delivered', 'cancelled']
+  - name: stg_customers
+    description: Clientes curados (tipos y formato), sin deduplicar.
+    columns:
+      - name: customer_id
+        description: Código de usuario
+      - name: first_name
+        description: Nombre del usuario
+      - name: last_name
+        description: Apellidos del usuario
+      - name: email
+        description: email
+      - name: country_code
+        description: Código internacional del país
+      - name: created_at
+        description: Fecha de creación del usuario

@@ -5,7 +5,7 @@ with deduplicado as (
         *,
         row_number() over (
             partition by customer_id
-            order by create_at desc
+            order by created_at desc
         ) as rn
     from {{ ref('stg_costumers') }}
 )

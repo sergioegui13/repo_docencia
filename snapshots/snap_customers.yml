@@ -2,7 +2,7 @@
 # Captura la historia de cambios sobre una source mutable.
 snapshots:
   - name: snap_customers
-    relation: source('raw_ecommerce', 'raw_customers')
+    relation: ref('stg_customers')
     config:
       unique_key: customer_id
       strategy: timestamp

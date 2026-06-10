@@ -1,9 +1,0 @@
-version: 2
-
-models:
-  - name: fct_orders
-    columns:
-      - name: order_id
-        data_tests:
-          # TODO (B5): añade los genéricos unique y not_null
-          []

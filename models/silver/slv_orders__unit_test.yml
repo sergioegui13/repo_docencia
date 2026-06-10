@@ -9,8 +9,9 @@ unit_tests:
       - input: ref('stg_orders')
         rows:
           # TODO: dos filas con order_id 1 y distinto order_date
-          []
+          - {order_id: 1, order_date: "2026-01-01"}
+          - {order_id: 1, order_date: "2026-01-02"}
     expect:
       rows:
         # TODO: una sola fila, la más reciente
-        []
+        - {order_id: 1, order_date: "2026-01-02"}

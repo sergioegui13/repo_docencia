@@ -1,0 +1,8 @@
+order_id,customer_id,order_date,status,amount
+1001,1,2024-03-01,delivered,49.90
+1002,2,2024-03-02,shipped,120.00
+1003,1,2024-03-05,pending,15.50
+1004,3,2024-03-07,delivered,89.99
+1005,4,2024-03-09,cancelled,0.00
+1002,2,2024-03-03,delivered,120.00
+1006,5,2024-03-11,pending,210.75

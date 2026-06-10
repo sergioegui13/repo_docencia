@@ -1,0 +1,88 @@
+# ============================================================================
+# dbt_project.yml — repo_docencia
+# ============================================================================
+# Proyecto de DOCENCIA de la Semana de Inmersión en el Modern Data Stack.
+# Caso de uso: e-commerce ficticio (pedidos y clientes).
+#
+# Convención (la misma de las slides, guías y anexos de la inmersión):
+#   - Nomenclatura Medallion: Bronze (source) -> Staging (stg_) -> Silver (slv_) -> Gold (fct_/dim_)
+#   - Bases de datos por entorno y capa vía variables de entorno:
+#       DBT_BRONZE_DB / DBT_SILVER_DB / DBT_GOLD_DB
+#     (con default a target.database para que el proyecto corra sin configurarlas)
+#   - Entornos: dbt_desa / dev / pre / pro  (target.name)
+#
+# NOTA: el directorio exercises/ NO está en model-paths a propósito: contiene
+# esqueletos de ejercicios que el alumno copia a models/. dbt no los compila.
+# ============================================================================
+
+name: 'repo_docencia'
+version: '1.0.0'
+config-version: 2
+profile: 'default'
+
+model-paths:    ["models"]
+analysis-paths: ["analyses"]
+test-paths:     ["tests"]
+seed-paths:     ["seeds"]
+macro-paths:    ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+# ----------------------------------------------------------------------------
+# Variables de proyecto (var)
+# ----------------------------------------------------------------------------
+vars:
+  # Ventana para filtros de ejemplo; se puede sobreescribir con --vars
+  fecha_min: '2020-01-01'
+
+# ----------------------------------------------------------------------------
+# Modelos: config en cascada por carpeta
+# ----------------------------------------------------------------------------
+models:
+  +transient: false
+
+  repo_docencia:
+
+    staging:
+      # Staging: curación inicial. Vistas, sin coste de almacenamiento.
+      +materialized: view
+      +database: "{{ env_var('DBT_SILVER_DB', target.database) }}"
+      +schema: staging
+
+    silver:
+      # Silver: deduplicación y limpieza. Datos confiables.
+      +materialized: view
+      +database: "{{ env_var('DBT_SILVER_DB', target.database) }}"
+      +schema: silver
+
+    gold:
+      # Gold: capa de consumo. Tablas (nunca vistas).
+      +materialized: table
+      +database: "{{ env_var('DBT_GOLD_DB', target.database) }}"
+      +schema: gold
+
+# ----------------------------------------------------------------------------
+# Seeds: hacen de capa Bronze "cargada" para que el repo sea ejecutable.
+# En un entorno real, Bronze la pobla la herramienta de ingesta y dbt solo la
+# declara como source(). Aquí usamos seeds para que el proyecto corra en clase.
+# ----------------------------------------------------------------------------
+seeds:
+  +database: "{{ env_var('DBT_BRONZE_DB', target.database) }}"
+  +schema: ecommerce
+
+# ----------------------------------------------------------------------------
+# Snapshots: en Silver, schema snapshots, no transient (necesitan Time Travel).
+# ----------------------------------------------------------------------------
+snapshots:
+  +transient: false
+  +target_database: "{{ env_var('DBT_SILVER_DB', target.database) }}"
+  +target_schema: snapshots
+
+# ----------------------------------------------------------------------------
+# Tests: por defecto error, sin store_failures. Se gradúa por test (ver día 4).
+# ----------------------------------------------------------------------------
+tests:
+  +store_failures: false
+  +severity: error

@@ -1,0 +1,16 @@
+version: 2
+
+# TODO (B5): completa el unit test. Dos filas de entrada con el mismo order_id
+# deben colapsarse en UNA en slv_orders (la más reciente por order_date).
+unit_tests:
+  - name: test_dedup_keeps_latest
+    model: slv_orders
+    given:
+      - input: ref('stg_orders')
+        rows:
+          # TODO: dos filas con order_id 1 y distinto order_date
+          []
+    expect:
+      rows:
+        # TODO: una sola fila, la más reciente
+        []

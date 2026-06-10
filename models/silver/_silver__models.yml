@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: slv_orders
+    description: Pedidos deduplicados por order_id (registro más reciente).
+    columns:
+      - name: order_id
+        description: Identificador único del pedido tras deduplicar.
+        data_tests:
+          - unique
+          - not_null

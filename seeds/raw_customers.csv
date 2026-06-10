@@ -1,0 +1,7 @@
+customer_id,first_name,last_name,email,country_code,created_at
+1,Ana,García,Ana.Garcia@email.com,ES,2024-01-03
+2,Luis,Pérez,luis.perez@EMAIL.com,ES,2024-01-05
+3,Marta,Sanz,marta.sanz@email.com,FR,2024-02-10
+4,Diego,Ruiz,DIEGO.RUIZ@email.com,ES,2024-02-15
+5,Sara,López,sara.lopez@email.com,PT,2024-03-01
+3,Marta,Sanz,marta.sanz@email.com,FR,2024-04-20

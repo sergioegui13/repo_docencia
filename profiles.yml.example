@@ -1,0 +1,57 @@
+# ============================================================================
+# profiles.yml.example — plantilla de conexión (dbt Core / referencia)
+# ============================================================================
+# En dbt Platform la conexión se gestiona por entorno desde la interfaz; este
+# fichero es la referencia de los CUATRO entornos de la convención Cívica.
+#
+# Las variables de entorno DBT_BRONZE_DB / DBT_SILVER_DB / DBT_GOLD_DB
+# resuelven la base de datos de cada capa en cada entorno. Si no se definen,
+# el proyecto cae a la database del target (para poder correr de inmediato).
+# ============================================================================
+default:
+  target: dbt_desa
+  outputs:
+
+    dbt_desa:            # desarrollo personal; cada quien en su schema dbt_<user>
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      authenticator: externalbrowser
+      role: DEV_TRANSFORM_ROLE
+      warehouse: DEV_TRANSFORM_WH
+      database: DEV_GOLD_DB
+      schema: "dbt_{{ env_var('USER', 'alumno') }}"
+      threads: 4
+
+    dev:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      authenticator: externalbrowser
+      role: DEV_TRANSFORM_ROLE
+      warehouse: DEV_TRANSFORM_WH
+      database: DEV_GOLD_DB
+      schema: gold
+      threads: 4
+
+    pre:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      authenticator: externalbrowser
+      role: PRE_TRANSFORM_ROLE
+      warehouse: PRE_TRANSFORM_WH
+      database: PRE_GOLD_DB
+      schema: gold
+      threads: 8
+
+    pro:
+      type: snowflake
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      authenticator: externalbrowser
+      role: PRO_TRANSFORM_ROLE
+      warehouse: PRO_TRANSFORM_WH
+      database: PRO_GOLD_DB
+      schema: gold
+      threads: 8

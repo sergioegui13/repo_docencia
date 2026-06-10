@@ -1,0 +1,9 @@
+# Snapshot SCD2 de clientes (ejemplo del día 3, bloque 5).
+# Captura la historia de cambios sobre una source mutable.
+snapshots:
+  - name: snap_customers
+    relation: source('raw_ecommerce', 'raw_customers')
+    config:
+      unique_key: customer_id
+      strategy: timestamp
+      updated_at: created_at

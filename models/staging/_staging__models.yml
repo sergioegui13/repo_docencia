@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: Pedidos curados (tipos y formato), sin deduplicar.
+    columns:
+      - name: order_id
+        description: Identificador del pedido (puede repetirse antes de Silver).
+      - name: status
+        description: Estado del pedido, normalizado a minúsculas.
+        data_tests:
+          - accepted_values:
+              values: ['pending', 'shipped', 'delivered', 'cancelled']

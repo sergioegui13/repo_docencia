@@ -47,7 +47,7 @@ models:
 
     staging:
       # Staging: curación inicial. Vistas, sin coste de almacenamiento.
-      +materialized: view
+      +materialized: table
       +database: "{{ env_var('DBT_SILVER_DB', target.database) }}"
       +schema: staging
 
